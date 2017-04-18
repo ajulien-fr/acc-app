@@ -1,0 +1,27 @@
+﻿<Window x:Class="acc_app.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:acc_app"
+        mc:Ignorable="d"
+        Title="Au Coeur Des Chats" Height="400" Width="575">
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top" Name="menu">
+                <MenuItem Header="_Fichier">
+                    <MenuItem Header="_Nouveau" Click="MenuItemNew_Click" Name="new"/>
+                    <MenuItem Header="_Ouvrir" Click="MenuItemOpen_Click" Name="open"/>
+                    <Separator />
+                    <MenuItem Header="_Quitter" Click="MenuItemExit_Click" />
+                </MenuItem>
+                <MenuItem Header="_Ajout">
+                    <MenuItem Header="Ajout _Recette" Click="MenuItemAddRecette_Click" Name="addRecette"/>
+                    <MenuItem Header="Ajout _Dépense" Click="MenuItemAddDepense_Click" Name="addDepense"/>
+                </MenuItem>
+                <MenuItem Header="Aide" Click="MenuItemHelp_Click" />
+            </Menu>
+            <ContentControl Name="ContentHolder" />
+        </DockPanel>
+    </Grid>
+</Window>
