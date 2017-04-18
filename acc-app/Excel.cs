@@ -300,5 +300,23 @@ namespace acc_app
                 throw;
             }
         }
+
+        public void AddDepense(List<Object> values)
+        {
+            try
+            {
+                // on get le tableau des recettes
+                InteropExcel.Worksheet sheet = this.excelWb.Worksheets[DateTime.Now.Month];
+                InteropExcel.ListObject table = sheet.ListObjects[String.Format("TableDepenses{0}", sheet.Name)];
+                InteropExcel.ListRow row = table.ListRows.Add();
+                InteropExcel.Range cells = row.Range.Cells;
+
+                cells.Value2 = values.ToArray(); // Value2 for set value to correct format
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

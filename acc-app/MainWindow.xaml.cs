@@ -126,7 +126,23 @@ namespace acc_app
 
         private void MenuItemAddDepense_Click(object sender, RoutedEventArgs e)
         {
+            if (!this.excel.IsOpen)
+            {
+                MessageBox.Show("First, you have to create or open the Excel file.", "Erreur");
 
+                return;
+            }
+
+            try
+            {
+                AddDepenseControl control = new AddDepenseControl();
+                control.AddDepenseButtonClicked += new AddDepenseControl.AddDepenseButtonClickHandler(AddDepenseButton_Click);
+                this.ContentHolder.Content = control;
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(String.Format("Unable to add a depense ({0}).", exception.Message), "Erreur");
+            }
         }
 
         private void AddRecetteButton_Click(object sender, RoutedEventArgs e)
@@ -171,6 +187,55 @@ namespace acc_app
             catch (Exception exception)
             {
                 MessageBox.Show(String.Format("Unable to add recette ({0}).", exception.Message), "Erreur");
+            }
+            finally
+            {
+                this.ContentHolder.Content = new LogoControl();
+            }
+        }
+
+        private void AddDepenseButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddDepenseControl control = (AddDepenseControl)this.ContentHolder.Content;
+            List<Object> values = new List<Object>();
+
+            try
+            {
+                DatePicker controlFirst = (DatePicker)control.FindName("date");
+                String date = controlFirst.SelectedDate.Value.ToString("dd/MM/yyyy");
+                values.Add(date);
+
+                ComboBox controlSecond = (ComboBox)control.FindName("mode");
+                String mode = ((ComboBoxItem)controlSecond.SelectedItem).Content.ToString();
+                values.Add(mode);
+
+                TextBox controlThird = (TextBox)control.FindName("libelle");
+                String libelle = controlThird.Text;
+                if (String.IsNullOrEmpty(libelle.Trim())) throw new Exception();
+                values.Add(libelle);
+
+                ComboBox controlFourth = (ComboBox)control.FindName("destination");
+                String provenance = ((ComboBoxItem)controlFourth.SelectedItem).Content.ToString();
+                values.Add(provenance);
+
+                TextBox controlFifth = (TextBox)control.FindName("montant");
+                String montant = controlFifth.Text;
+                if (String.IsNullOrEmpty(montant.Trim())) throw new Exception();
+                values.Add(Decimal.Parse(montant));
+            }
+            catch
+            {
+                values.Clear();
+                MessageBox.Show("You have to set all items.", "Erreur");
+            }
+
+            try
+            {
+                this.excel.AddDepense(values);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(String.Format("Unable to add depense ({0}).", exception.Message), "Erreur");
             }
             finally
             {
