@@ -172,6 +172,10 @@ namespace acc_app
             {
                 MessageBox.Show(String.Format("Unable to add recette ({0}).", exception.Message), "Erreur");
             }
+            finally
+            {
+                this.ContentHolder.Content = new LogoControl();
+            }
         }
     }
 }
